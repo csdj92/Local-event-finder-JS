@@ -14,9 +14,9 @@ class Event {
 function addEvent() {
     const event = {
         name: document.getElementById('name').value,
-        description: document.getElementById('description').value,
-        date: document.getElementById('date').value,
-        time: document.getElementById('time').value,
+        description: document.getElementById('event-description').value,
+        date: document.getElementById('event-date').value,
+        time: document.getElementById('event-time').value,
         city_id: document.getElementById('event-cityId').value       
 
     }
@@ -63,6 +63,27 @@ function renderNewEventForm() {
     eventsHtml.appendChild(eventForm)
 }
 
+function renderEventFormFields(cityId) {
+    return `
+    <label><strong>Name: </strong></label><br/>
+    <input type="text" id="name"><br/>
+
+    <input type="hidden" id="event-cityId" value="${cityId}">
+
+    <label><strong>Description:   </strong></label><br/>
+    <input type="text" id="event-description"><br/>
+
+    <label><strong>Date:   </strong></label><br/>
+    <input type="text" id="event-date"><br/>
+
+    <label><strong>Time:   </strong></label><br/>
+    <input type="text" id="event-time"><br/>   
+
+    <input type="submit" value="Submit" style="color:white;background-color:orange">    
+    `  
+}
+
+
 function addEventsClickListeners() {
     document.querySelectorAll('.view-events-button').forEach(element => {
         element.addEventListener('click', viewEvents)
@@ -87,7 +108,7 @@ function updateEvent() {
     let eventElement = document.querySelector(`.card[event-id="${eventId}"]`)
         
      let event = {
-         name: eventElement.querySelector('name').value,
+        name: eventElement.querySelector('name').value,
         description: eventElement.querySelector('description').value,
         date: eventElement.querySelector('date').value,
         time: eventElement.querySelector('time').value,
@@ -108,5 +129,19 @@ function updateEvent() {
          City.newCityForm()
     })
 }
+
+function populateEventForm(data) { 
+    let event = new Event(data)
+    let eventForm = renderEventForm(event.city_id)
+    
+    eventForm.querySelector('#name').value = event.name 
+    eventForm.querySelector('#event-description').value = event.description 
+    eventForm.querySelector('#event-date').value = event.date
+    eventForm.querySelector('#event-time').value = event.time
+    eventForm.querySelector('#event-cityId').value = event.city_id 
+    document.querySelector(`.card[event-id="${event.id}"]`).appendChild(eventForm)
+}
+
+
 
 
