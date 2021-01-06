@@ -37,11 +37,12 @@ class City{
 
 
 function getCities() {    
-    fetch(CITY_URL + '')
+    fetch(CITY_URL )
     .then(res => res.json())
     .then(data => {
         renderCities(data)
         addCityEventListeners()
+        addEventsClickListeners()
         //eventlistner??
     })      
 }
@@ -74,19 +75,33 @@ function showMoreInfo() {
 }
 
 
+function deleteCity() {
+    let cityId = this.parentElement.getAttribute('data-city-id')
+    
+    fetch( CITY_URL + `/${cityId}`, {
+        method: 'DELETE'
+      })
+      .then(resp => resp.text())
+      .then(json => {
+          let selectedCity = document.querySelector(`.card[data-city-id="${cityId}"]`) 
+          selectedCity.remove()
+      })
+}
+
+
 
 function addCityEventListeners() {
     document.querySelectorAll('.event-name').forEach(element => {
        element.addEventListener("click", showMoreInfo)
    })
 
-//    document.querySelectorAll('.edit-city-button').forEach(element => {
-//        element.addEventListener("click", editDog)
-//    })
+    //document.querySelectorAll('.edit-city-button').forEach(element => {
+    //    element.addEventListener("click", editCity)
+   // })
 
-//    document.querySelectorAll('.delete-city-button').forEach(element => {
-//        element.addEventListener("click", deleteDog)
-//    })
+    document.querySelectorAll('.delete-city-button').forEach(element => {
+        element.addEventListener("click", deleteCity)
+    })
 
 //    document.querySelector('.sort-button').addEventListener("click", sortCities)
    
@@ -121,11 +136,13 @@ City.prototype.cityEventsHtml = function () {
 City.prototype.cityHtml = function () {
      
     return `<div class="card" data-city-id="${this.id}">
+            <strong class="city-name">${this.name}</strong> <br/> 
+
             <button class="view-events-button" style="background-color:blue">View events</button>  
             <button class="edit-city-button" style="background-color:orange">Edit Info</button>  
             <button class="delete-city-button" style="background-color:red">Delete City</button>
             </br></br>
-            <strong class="city-name">${this.name}</strong> <br/>
+            
             
             <div class="additional-info" style="display:none">     
             <strong>Description: </strong>${this.description}<br/>
