@@ -156,4 +156,27 @@ function editEvent() {
     })
 
 }
+function deleteEvent() {
+    let eventId = this.parentElement.getAttribute('event-id')
+
+    fetch( EVENT_URL + `/${eventId}`, {
+        method: 'DELETE'
+      })
+      .then(resp => resp.json())
+      .then(json => {
+          let selectedEvent = document.querySelector(`.card[event-id="${eventId}"]`) 
+          selectedEvent.remove()
+      })
+}
+
+
+function viewEvents() {
+    City.newCityForm()
+    let citySelectedHtml = this.parentElement.querySelector('.events')
+    toggleHideDisplay(citySelectedHtml)
+}
+
+
+
+
 
