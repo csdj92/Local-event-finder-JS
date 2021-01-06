@@ -16,13 +16,8 @@ class EventsController < ApplicationController
   # POST /events
   def create
     @event = Event.new(event_params)
-    @event.city_id = params[:city_id]
-    
+    @event.city_id = params[:city_id]    
    
-   binding.pry
-   
-    
-
     if @event.save
       render json: @event, status: :created, location: @event
     else
