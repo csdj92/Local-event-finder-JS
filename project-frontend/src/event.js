@@ -53,4 +53,60 @@ function renderEventForm(cityId) {
     `  
 }
 
+function renderNewEventForm() {
+    let cityId = this.getAttribute('id')
+    this.style.display = "none"
+    let eventsHtml = this.parentElement
+    let eventForm = document.createElement('form')
+    eventForm.setAttribute("onsubmit", "addEvent(); return false;")
+    eventForm.innerHTML = renderEventFormFields(cityId)
+    eventsHtml.appendChild(eventForm)
+}
+
+function addEventsClickListeners() {
+    document.querySelectorAll('.view-events-button').forEach(element => {
+        element.addEventListener('click', viewEvents)
+    })
+
+    document.querySelectorAll('.add-event-button').forEach(element => {
+        element.addEventListener('click', renderNewEventForm)
+    })
+    
+    document.querySelectorAll('.edit-event-button').forEach(element => {
+        element.addEventListener("click", editEvent)
+    })
+
+    document.querySelectorAll('.delete-event-button').forEach(element => {
+        element.addEventListener("click", deleteEvent)
+    })
+
+}
+
+function updateEvent() { 
+    let eventId = this.event.target.parentElement.getAttribute('event-id')     
+    let eventElement = document.querySelector(`.card[event-id="${eventId}"]`)
+        
+     let event = {
+         name: eventElement.querySelector('name').value,
+        description: eventElement.querySelector('description').value,
+        date: eventElement.querySelector('date').value,
+        time: eventElement.querySelector('time').value,
+        city_id: eventElement.querySelector('event-cityId').value,
+     }
+       
+
+    fetch(EVENT_URL + `/${eventId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(event),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then(resp => resp.json() )
+    .then(data => {
+        console.log(data);
+         clearPage()
+         getCities()  
+         City.newCityForm()
+    })
+}
+
 
