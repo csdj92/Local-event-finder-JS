@@ -142,6 +142,18 @@ function populateEventForm(data) {
     document.querySelector(`.card[event-id="${event.id}"]`).appendChild(eventForm)
 }
 
+function editEvent() { 
+    toggleHideDisplay(this)
 
+    let eventId = this.parentElement.getAttribute('event-id')
+    console.log("eventId", eventId)
+    fetch(EVENT_URL + `/${eventId}`)
+    .then(resp => resp.json())
+    .then(data => {
 
+        populateEventForm(data)
+ 
+    })
+
+}
 
