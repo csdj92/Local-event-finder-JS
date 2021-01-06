@@ -1,5 +1,3 @@
-const { func } = require("prop-types");
-
 const CITY_URL = 'http:localhost:3000/cities'
 const main = document.getElementById('main')
 const form = document.querySelector('form');
@@ -14,6 +12,8 @@ const cityForm = `
 class City{
     constructor(data){
         this.name = data.name
+        this.events = data.events
+        this.id = data.id
     }
 
     static newCityForm() {
@@ -33,8 +33,6 @@ class City{
         `<input type="submit" value="Update City"        
         </form>`
     }
-
-
 }
 
 
@@ -43,6 +41,7 @@ function getCities() {
     .then(res => res.json())
     .then(data => {
         renderCities(data)
+        addCityEventListeners()
         //eventlistner??
     })      
 }
@@ -62,25 +61,81 @@ function createCity() {
     .then(res => res.json())
     .then(city => {
         console.log(city);
-        clearpage()
+        clearPage()
         getCities()
         City.newCityForm()
     });
 }
 
+function showMoreInfo() {
+    console.log("this", this)
+    console.log(this.parentElement.querySelector('.additional-info'))
+    toggleHideDisplay(this.parentElement.querySelector('.additional-info'))
+}
 
-City.prototype.dogHtml = function () {
+
+
+function addCityEventListeners() {
+    document.querySelectorAll('.event-name').forEach(element => {
+       element.addEventListener("click", showMoreInfo)
+   })
+
+//    document.querySelectorAll('.edit-city-button').forEach(element => {
+//        element.addEventListener("click", editDog)
+//    })
+
+//    document.querySelectorAll('.delete-city-button').forEach(element => {
+//        element.addEventListener("click", deleteDog)
+//    })
+
+//    document.querySelector('.sort-button').addEventListener("click", sortCities)
+   
+}
+
+function clearPage() {
+    let cityIndex = document.getElementById("main")
+    cityIndex.innerHTML = ''
+}
+
+
+City.prototype.cityEventsHtml = function () {
+
+	let cityEvents = this.events.map(event => {
+        
+
+        return (`
+        <div class="card" event-id="${event.id}" >        
+        <strong>Title: </strong>${event.name} <br/>
+        <strong>Description: </strong>${event.description} <br/>
+        
+        <button class="edit-event-button" style="background-color:orange">Edit Record</button>  
+        <button class="delete-event-button" style="background-color:red">Delete Record</button>  
+        </div>
+		`)
+    }).join('')
+
+    return (cityEvents)
+}
+
+
+City.prototype.cityHtml = function () {
      
     return `<div class="card" data-city-id="${this.id}">
             <button class="view-events-button" style="background-color:blue">View events</button>  
             <button class="edit-city-button" style="background-color:orange">Edit Info</button>  
             <button class="delete-city-button" style="background-color:red">Delete City</button>
             </br></br>
-            <strong class="city-name">${this.name}</strong> <br/>           
+            <strong class="city-name">${this.name}</strong> <br/>
+            
+            <div class="additional-info" style="display:none">     
+            <strong>Description: </strong>${this.description}<br/>
+            <strong>Status: </strong>${this.status}<br/>
+            </div>
+
             </div>` 
 }
 
-CIty.prototype.addEventButton = function () {
+City.prototype.addEventButton = function () {
 
     let addNewEventButton = document.createElement('button')
     addNewEventButton.className = 'add-event-button'
@@ -96,7 +151,7 @@ CIty.prototype.addEventButton = function () {
 function renderCities(data) {
     let cityIndex = document.getElementById('main')
 
-    data.forEach(city => {
+    data.forEach((city) => {
         
         let eventsIndex = document.createElement('div')
         eventsIndex.className = 'events'
@@ -104,10 +159,14 @@ function renderCities(data) {
         let emptyEventsIndex = eventsIndex
 
         let newCity = new City(city)
-        cityIndex.innerHTML += newCity.cityHtml
+        eventsIndex.innerHTML = newCity.cityEventsHtml()
+
+        cityIndex.innerHTML += newCity.cityHtml()
+
+        
 
         let selectedCityHtml = document.querySelector(`.card[data-city-id="${newCity.id}"]`)           
-        selectedCityHtml.append(eventsIndexHtml.childElementCount ? eventsIndex : emptyEventsIndex )
+        selectedCityHtml.append(eventsIndex.childElementCount ? eventsIndex : emptyEventsIndex )
         selectedCityHtml.querySelector('.events').appendChild(newCity.addEventButton())
     });
 
