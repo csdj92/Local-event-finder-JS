@@ -108,11 +108,11 @@ function updateEvent() {
     let eventElement = document.querySelector(`.card[event-id="${eventId}"]`)
         
      let event = {
-        name: eventElement.querySelector('name').value,
-        description: eventElement.querySelector('description').value,
-        date: eventElement.querySelector('date').value,
-        time: eventElement.querySelector('time').value,
-        city_id: eventElement.querySelector('event-cityId').value,
+        name: eventElement.querySelector('#name').value,
+        description: eventElement.querySelector('#event-description').value,
+        date: eventElement.querySelector('#event-date').value,
+        time: eventElement.querySelector('#event-time').value,
+        city_id: eventElement.querySelector('#event-cityId').value,
      }
        
 
@@ -162,7 +162,7 @@ function deleteEvent() {
     fetch( EVENT_URL + `/${eventId}`, {
         method: 'DELETE'
       })
-      .then(resp => resp.json())
+      .then(resp => resp.text())
       .then(json => {
           let selectedEvent = document.querySelector(`.card[event-id="${eventId}"]`) 
           selectedEvent.remove()
@@ -177,6 +177,12 @@ function viewEvents() {
 }
 
 
+function renderEventForm (cityId) {
+    let eventForm = document.createElement('form')
+    eventForm.setAttribute("onsubmit", "updateEvent(); return false;")
+    eventForm.innerHTML = renderEventFormFields(cityId)
+    return eventForm 
+}
 
 
 
