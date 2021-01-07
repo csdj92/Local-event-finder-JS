@@ -16,8 +16,7 @@ class EventsController < ApplicationController
   # POST /events
   def create
     @event = Event.new(event_params)
-    @event.city_id = params[:city_id]    
-   
+    @event.city_id = params[:city_id]       
     if @event.save
       render json: @event, status: :created, location: @event
     else
@@ -28,6 +27,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   def update
     if @event.update(event_params)
+      @event.city_id = params[:city_id] 
       render json: @event
     else
       render json: @event.errors, status: :unprocessable_entity
