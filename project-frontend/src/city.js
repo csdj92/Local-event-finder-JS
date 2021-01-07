@@ -3,11 +3,6 @@ const main = document.getElementById('main')
 const form = document.querySelector('form');
 const container = document.querySelector('container')
 
-const cityForm = `
-<label>City Name: </label><br>
-<input type "text" id="cityName"><br>
-<input type="hidden" id="cityId"></input>
-`
 
 class City{
     constructor(data){
@@ -32,6 +27,25 @@ class City{
         cityForm +
         `<input type="submit" value="Update City"        
         </form>`
+    }
+
+    static cityHtml() {
+     
+        return `<div class="card" data-city-id="${this.id}">
+                <strong class="city-name">${this.name}</strong> <br/> 
+    
+                <button class="view-events-button" style="background-color:blue">View events</button>  
+                <button class="edit-city-button" style="background-color:orange">Edit Info</button>  
+                <button class="delete-city-button" style="background-color:red">Delete City</button>
+                </br></br>
+                
+                
+                <div class="additional-info" style="display:none">     
+                <strong>Description: </strong>${this.description}<br/>
+                <strong>Status: </strong>${this.status}<br/>
+                </div>
+    
+                </div>` 
     }
 }
 
@@ -88,7 +102,11 @@ function deleteCity() {
       })
 }
 
-
+const cityForm = `
+<label>City Name: </label><br>
+<input type "text" id="cityName"><br>
+<input type="hidden" id="cityId"></input>
+`
 
 function addCityEventListeners() {
     document.querySelectorAll('.event-name').forEach(element => {
