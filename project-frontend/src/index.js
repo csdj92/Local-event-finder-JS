@@ -15,6 +15,10 @@ function toggleHideDisplay(element) {
 
 
 
+
+
+
+
 // function getEvents() {
 //     main
 //     fetch(BASE_URL + '/cities')
