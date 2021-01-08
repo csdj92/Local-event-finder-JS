@@ -98,7 +98,7 @@ function getCities() {
             renderCities(data)
             addCityEventListeners()
             addEventsClickListeners()
-            //eventlistner??
+           
         })
 }
 
@@ -117,17 +117,14 @@ function createCity() {
             }
         })
         .then(res => res.json())
-        .then(city => {
-            console.log(city);
+        .then(city => {            
             clearPage()
             getCities()
             City.newCityForm()
         });
 }
 
-function showMoreInfo() {
-    console.log("this", this)
-    console.log(this.parentElement.querySelector('.additional-info'))
+function showMoreInfo() {   
     toggleHideDisplay(this.parentElement.querySelector('.additional-info'))
 }
 
