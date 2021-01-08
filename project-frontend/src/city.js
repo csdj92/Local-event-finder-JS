@@ -64,6 +64,8 @@ class City {
                 <button class="btn btn-outline-info view-events-button">View events</button>  
                 
                 <button class="btn btn-outline-info delete-city-button">Delete City</button>
+
+                <button class="btn btn-outline-info edit-city-button">Edit City</button>
                 
                 
                 
@@ -142,6 +144,20 @@ function deleteCity() {
         })
 }
 
+function editCity() { 
+    toggleHideDisplay(this)
+
+    let cityId = this.parentElement.getAttribute('data-city-id')
+     fetch(`http://localhost:3000/api/v1/events/${cityId}`)
+    .then(resp => resp.json())
+    .then(data => {
+
+        populateEventForm(data)
+ 
+    })
+
+}
+
 
 
 function addCityEventListeners() {
@@ -149,15 +165,15 @@ function addCityEventListeners() {
         element.addEventListener("click", showMoreInfo)
     })
 
-    //document.querySelectorAll('.edit-city-button').forEach(element => {
-    //    element.addEventListener("click", editCity)
-    // })
+    document.querySelectorAll('.edit-city-button').forEach(element => {
+        element.addEventListener("click", editCity)
+     })
 
     document.querySelectorAll('.delete-city-button').forEach(element => {
         element.addEventListener("click", deleteCity)
     })
 
-    //    document.querySelector('.sort-button').addEventListener("click", sortCities)
+    
 
 }
 
