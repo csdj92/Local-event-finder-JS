@@ -49,7 +49,7 @@ function renderEventForm(cityId) {
     <label><strong>Time:   </strong></label><br/>
     <input type="text" id="event-time"><br/>   
 
-    <input type="submit" value="Submit" style="color:white;background-color:orange">
+    <input type="submit" class="btn btn-primary" value="Submit" ">
     `  
 }
 
@@ -79,7 +79,7 @@ function renderEventFormFields(cityId) {
     <label><strong>Time:   </strong></label><br/>
     <input type="text" id="event-time"><br/>   
 
-    <input type="submit" value="Submit" style="color:white;background-color:orange">    
+    <input type="submit" class="btn btn-primary" value="Submit" ">    
     `  
 }
 
