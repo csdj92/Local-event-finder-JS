@@ -23,7 +23,7 @@ Run the rails server with:
 
 Change directory to project-frontend.
 
-open the index.html file in any browser.
+Open the index.html file in any browser.
 
 ## Usage
 
