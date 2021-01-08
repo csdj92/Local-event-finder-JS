@@ -26,8 +26,7 @@ function addEvent() {
         headers:{'Content-Type': 'application/json'}
     })
     .then(resp => resp.json())
-    .then(event => {
-        console.log(event)
+    .then(event => {        
         clearPage()
         getCities()
     });
@@ -122,8 +121,7 @@ function updateEvent() {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     })
     .then(resp => resp.json() )
-    .then(data => {
-        console.log(data);
+    .then(data => {        
          clearPage()
          getCities()  
          City.newCityForm()
@@ -145,8 +143,7 @@ function populateEventForm(data) {
 function editEvent() { 
     toggleHideDisplay(this)
 
-    let eventId = this.parentElement.getAttribute('event-id')
-    console.log("eventId", eventId)
+    let eventId = this.parentElement.getAttribute('event-id')    
     fetch(EVENT_URL + `/${eventId}`)
     .then(resp => resp.json())
     .then(data => {
