@@ -17,13 +17,13 @@ class City {
     }
 
     static newCityForm() {
-        let newCityForm = document.getElementById('new-form')
+        let newCityForm = document.getElementById('new-city')
         newCityForm.innerHTML = `
     <form onsubmit="createCity(); return false;">` +
             cityForm +
             `<input type="submit" value="Add New City" >
     </form>
-    <br/>`
+    `
     }
     static editCityForm() {
         let editCityForm = document.getElementById("new-form")
@@ -45,8 +45,8 @@ class City {
             <strong>Date: </strong>${event.date} <br/>
             <strong>Time: </strong>${event.time} <br/>
             
-            <button class="edit-event-button" style="background-color:orange">Edit Record</button>  
-            <button class="delete-event-button" style="background-color:red">Delete Record</button>  
+            <button class="btn btn-primary edit-event-button" >Edit Event</button>  
+            <button class="btn btn-danger delete-event-button">Delete Event</button>  
             </div>
             `)
         }).join('')
@@ -55,30 +55,35 @@ class City {
     }
     cityHtml = function () {
 
-        return `<div class="card" data-city-id="${this.id}">
+        return `     
+     
+        
+                <div class="card" data-city-id="${this.id}">
                 <strong class="city-name">${this.name}</strong> <br/> 
-    
-                <button class="view-events-button" style="background-color:blue">View events</button>  
-                <button class="edit-city-button" style="background-color:orange">Edit Info</button>  
-                <button class="delete-city-button" style="background-color:red">Delete City</button>
-                </br></br>
+                    
+                <button class="btn btn-outline-info view-events-button">View events</button>  
+                
+                <button class="btn btn-outline-info delete-city-button">Delete City</button>
+                
                 
                 
                 <div class="additional-info" style="display:none">     
                 <strong>Description: </strong>${this.description}<br/>
                 <strong>Status: </strong>${this.status}<br/>
-                </div>
+               
     
-                </div>`
+               
+                
+              </div></div>`
     }
 
     addEventButton = function () {
 
         let addNewEventButton = document.createElement('button')
-        addNewEventButton.className = 'add-event-button'
+        addNewEventButton.className = 'btn btn-primary add-event-button'
         addNewEventButton.id = this.id
         addNewEventButton.innerText = "Add Event"
-        addNewEventButton.style.backgroundColor = "green"
+        
 
         return addNewEventButton
 
