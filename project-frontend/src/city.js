@@ -26,9 +26,9 @@ class City {
     `
     }
     static editCityForm() {
-        let editCityForm = document.getElementById("new-form")
+        let editCityForm = document.getElementById("main")
         editCityForm.innerHTML = `
-        <form onsubmit="createCity(); return false;">` +
+        <form onsubmit="updateCity(); return false;">` +
             cityForm +
             `<input type="submit" value="Update City"        
         </form>`
@@ -65,7 +65,7 @@ class City {
                 
                 <button class="btn btn-outline-info delete-city-button">Delete City</button>
 
-                <button class="btn btn-outline-info edit-city-button">Edit City</button>
+              
                 
                 
                 
@@ -77,7 +77,7 @@ class City {
                
                 
               </div></div>`
-    }
+    } // <button class="btn btn-outline-info edit-city-button">Edit City</button>
 
     addEventButton = function () {
 
@@ -144,18 +144,39 @@ function deleteCity() {
         })
 }
 
-function editCity() { 
-    toggleHideDisplay(this)
+function updateCity() {
+    let cityId = this.event.target.cityId.value
 
-    let cityId = this.parentElement.getAttribute('data-city-id')
-     fetch(`http://localhost:3000/api/v1/events/${cityId}`)
-    .then(resp => resp.json())
-    .then(data => {
-
-        populateEventForm(data)
- 
+    const city = {
+        name: document.getElementById('name').value,
+        
+    }
+    fetch( CITY_URL + `/${cityId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(city),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     })
+    .then(resp => resp.json() )
+    .then(city => {
+         clearPage()
+         renderCities()
+         City.newCityForm()
+        });
+}
 
+function editCity() {
+    let cityId = this.parentElement.getAttribute('data-city-id')
+
+    // Populate the city form with city's info
+        fetch( CITY_URL + `/${cityId}`)
+        .then(resp => resp.json())
+        .then(data => {
+            City.editCityForm()
+            let cityForm = document.getElementById('main')
+            cityForm.querySelector('#cityName').value
+
+            
+        })
 }
 
 
